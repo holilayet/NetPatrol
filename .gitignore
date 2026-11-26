@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+
+# Hardhat build output
+artifacts/
+cache/
+typechain-types/
+coverage/
+
+# Environment and local deployment data
+.env
+deployments/
+
+# OS / editor
+.DS_Store

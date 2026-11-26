@@ -1,74 +1,73 @@
-<!-- fallback_NetPatrol_20260701063438_72619 -->
+# NetPatrol
 
-# NetPatrol: Artificial-Intelligence Driven NetPatrol Orchestrates Real-Time Traffic Optimization across Scalable Distributed Networks to Proactively Monitor Implementation
-> Advanced javascript solution leveraging modern architecture patterns and cutting-edge technology.
+NetPatrol is a Solidity smart contract for storing arbitrary data on-chain as key-value pairs, with Hardhat and ethers.js tooling around it: a deploy script, a CLI, a small REST API, and a frontend integration example.
 
-Artificial-Intelligence Driven NetPatrol Orchestrates Real-Time Traffic Optimization across Scalable Distributed Networks to Proactively Monitor.
+The contract (`contracts/Netpatrol.sol`) is a minimal Ownable key-value store:
 
-NetPatrol is designed to provide developers and professionals with a robust, efficient, and scalable solution for their javascript development needs. This implementation focuses on performance, maintainability, and ease of use, incorporating industry best practices and modern software architecture patterns.
+- `store(bytes32 key, bytes value)` — stores any bytes under a key, emitting a `DataStored` event.
+- `retrieve(bytes32 key)` — reads back the stored bytes.
+- The deployer is recorded as the contract `owner` (OpenZeppelin `Ownable`).
 
-The primary purpose of NetPatrol is to streamline development workflows and enhance productivity through innovative features and comprehensive functionality. Whether you're building enterprise applications, data processing pipelines, or interactive systems, NetPatrol provides the foundation you need for successful project implementation.
+## Project structure
 
-NetPatrol's key benefits include:
+- `contracts/Netpatrol.sol` — the smart contract
+- `scripts/deploy.js` — deploys the contract, saves the deployment info to `deployments/<network>.json`
+- `scripts/interact.js` — store / retrieve values through Hardhat
+- `scripts/cli.js` — `netpatrol-cli` command-line tool (`store`, `retrieve`, `info`)
+- `scripts/api-server.js` — REST API (`/health`, `/store`, `/retrieve/:key`, `/contract`)
+- `scripts/frontend-integration.js` — example client and React hook for frontends
+- `test/Netpatrol.test.js` — contract tests
 
-* **High-performance architecture**: Leveraging optimized algorithms and efficient data structures for maximum performance.
-* **Modern development patterns**: Implementing contemporary software engineering practices and design patterns.
-* **Comprehensive testing**: Extensive test coverage ensuring reliability and maintainability.
+## Requirements
 
-# Key Features
+- Node.js 18+
+- npm
 
-* **Modern ES6+ JavaScript features**: Advanced implementation with optimized performance and comprehensive error handling.
-* **Asynchronous programming patterns**: Advanced implementation with optimized performance and comprehensive error handling.
-* **Modular component architecture**: Advanced implementation with optimized performance and comprehensive error handling.
-* **Cross-browser compatibility**: Advanced implementation with optimized performance and comprehensive error handling.
-* **Responsive design principles**: Advanced implementation with optimized performance and comprehensive error handling.
+## Setup
 
-# Technology Stack
+```bash
+git clone https://github.com/holilayet/NetPatrol.git
+cd NetPatrol
+npm install
+cp .env.example .env
+```
 
-* **Javascript**: Primary development language providing performance, reliability, and extensive ecosystem support.
-* **Modern tooling**: Utilizing contemporary development tools and frameworks for enhanced productivity.
-* **Testing frameworks**: Comprehensive testing infrastructure ensuring code quality and reliability.
+Fill in `.env` with your own values (see `.env.example`): `PRIVATE_KEY`, `SEPOLIA_RPC_URL`, `ETHERSCAN_API_KEY`. Never commit a real `.env` file.
 
-# Installation
+## Usage
 
-To install NetPatrol, follow these steps:
+```bash
+npx hardhat compile          # compile the contract
+npx hardhat test             # run the tests
+npx hardhat node             # start a local chain
 
-1. Clone the repository:
+npm run deploy:local         # deploy to localhost
+npm run deploy:sepolia       # deploy to Sepolia
 
+# Store and retrieve through Hardhat
+npx hardhat run scripts/interact.js store <key> <value>
+npx hardhat run scripts/interact.js retrieve <key>
 
-2. Follow the installation instructions in the documentation for your specific environment.
+# Or use the CLI (after deploying, so deployments/<network>.json exists)
+node scripts/cli.js store <key> <value>
+node scripts/cli.js retrieve <key>
+node scripts/cli.js info
 
-# Configuration
+# Or run the REST API (default http://localhost:3000)
+npm run api
+```
 
-NetPatrol supports various configuration options to customize behavior and optimize performance for your specific use case. Configuration can be managed through environment variables, configuration files, or programmatic settings.
+## Configuration
 
-## # Configuration Options
+| Variable | Description |
+| --- | --- |
+| `PRIVATE_KEY` | Private key used to deploy and sign transactions |
+| `SEPOLIA_RPC_URL` | Sepolia RPC endpoint |
+| `ETHERSCAN_API_KEY` | Etherscan API key for contract verification |
+| `RPC_URL` | RPC endpoint for the CLI / API server (default `http://127.0.0.1:8545`) |
+| `NETWORK` | Network name used by the API server (default `localhost`) |
+| `PORT` | Port for the API server (default `3000`) |
 
-The following configuration parameters are available:
+## License
 
-* **Verbose Mode**: Enable detailed logging for debugging purposes
-* **Output Format**: Customize the output format (JSON, CSV, XML)
-* **Performance Settings**: Adjust memory usage and processing threads
-* **Network Settings**: Configure timeout and retry policies
-
-# Contributing
-
-Contributions to NetPatrol are welcome and appreciated! We value community input and encourage developers to help improve this project.
-
-## # How to Contribute
-
-1. Fork the NetPatrol repository.
-2. Create a new branch for your feature or fix.
-3. Implement your changes, ensuring they adhere to the project's coding standards and guidelines.
-4. Submit a pull request, providing a detailed description of your changes.
-
-## # Development Guidelines
-
-* Follow the existing code style and formatting conventions
-* Write comprehensive tests for new features
-* Update documentation when adding new functionality
-* Ensure all tests pass before submitting your pull request
-
-# License
-
-This project is licensed under the MIT License. See the [LICENSE](https://github.com/holilayet/NetPatrol/blob/main/LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
